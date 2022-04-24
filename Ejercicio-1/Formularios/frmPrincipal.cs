@@ -26,16 +26,35 @@ namespace Ejercicio_1.Formularios
             _estadoFormulario = EstadoFormulario.Vacio;
         }
 
-
         private void frmPrincipal_Load(object sender, EventArgs e)
         {
             CambiarEstadoFormulario(EstadoFormulario.Vacio);
             dgvListaAlumnos.DataSource = _alumnosRepositorio.ListaAlumnos;
         }
+
         private void btnCrear_Click(object sender, EventArgs e)
         {
             CambiarEstadoFormulario(EstadoFormulario.Crear);
 
+        }
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            LimpiarControles();
+        }
+        private void btnGuardar_Click(object sender, EventArgs e)
+        {
+            switch (_estadoFormulario)
+            {
+                case EstadoFormulario.Crear:
+                    InsertarAlumno();
+                    break;
+                case EstadoFormulario.Actualizar:
+                    break;
+            }
+        }
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            CambiarEstadoFormulario(EstadoFormulario.Vacio);
         }
         //Activa o desactiva los controles del formulario
         private void CambiarEstadoControles(bool estado)
@@ -73,6 +92,7 @@ namespace Ejercicio_1.Formularios
                     btnBorrar.Enabled = false;
                     btnGuardar.Enabled = false;
                     btnLimpiar.Enabled = false;
+                    btnCancelar.Enabled = false;
                     break;
                 case EstadoFormulario.Visualizando:
                     btnCrear.Enabled = true;
@@ -80,6 +100,7 @@ namespace Ejercicio_1.Formularios
                     btnBorrar.Enabled = true;
                     btnGuardar.Enabled = false;
                     btnLimpiar.Enabled = false;
+                    btnCancelar.Enabled = false;
                     break;
                 case EstadoFormulario.Crear:
                     btnCrear.Enabled = false;
@@ -87,14 +108,15 @@ namespace Ejercicio_1.Formularios
                     btnBorrar.Enabled = false;
                     btnGuardar.Enabled = true;
                     btnLimpiar.Enabled = true;
+                    btnCancelar.Enabled = true;
                     break;
-
                 case EstadoFormulario.Actualizar:
                     btnCrear.Enabled = false;
                     btnActualizar.Enabled = false;
                     btnBorrar.Enabled = false;
                     btnGuardar.Enabled = true;
                     btnLimpiar.Enabled = true;
+                    btnCancelar.Enabled = true;
                     break;
                 default:
                     break;
@@ -113,23 +135,8 @@ namespace Ejercicio_1.Formularios
                 CambiarEstadoControles(true);
             }
             CambiarEstadoBotones();
-
         }
 
-        private void btnLimpiar_Click(object sender, EventArgs e)
-        {
-            LimpiarControles();
-        }
-
-        private void btnGuardar_Click(object sender, EventArgs e)
-        {
-            switch (_estadoFormulario)
-            {
-                case EstadoFormulario.Crear:
-                    InsertarAlumno();
-                    break;
-            }
-        }
         private void InsertarAlumno()
         {
             try
@@ -160,5 +167,7 @@ namespace Ejercicio_1.Formularios
             dgvListaAlumnos.DataSource = listanueva;
             dgvListaAlumnos.Refresh();
         }
+
+        
     }
 }
