@@ -46,6 +46,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.gbxListaDeAlumnos = new System.Windows.Forms.GroupBox();
             this.dgvListaAlumnos = new System.Windows.Forms.DataGridView();
+            this.NroDocumento = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FechaNacimiento = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Apellido = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gbxAlumno.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.gbxListaDeAlumnos.SuspendLayout();
@@ -113,6 +117,7 @@
             this.btnBorrar.TabIndex = 2;
             this.btnBorrar.Text = "Borrar";
             this.btnBorrar.UseVisualStyleBackColor = true;
+            this.btnBorrar.Click += new System.EventHandler(this.btnBorrar_Click);
             // 
             // btnGuardar
             // 
@@ -233,8 +238,30 @@
             this.dgvListaAlumnos.Location = new System.Drawing.Point(21, 22);
             this.dgvListaAlumnos.Name = "dgvListaAlumnos";
             this.dgvListaAlumnos.RowTemplate.Height = 25;
+            this.dgvListaAlumnos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvListaAlumnos.Size = new System.Drawing.Size(596, 383);
             this.dgvListaAlumnos.TabIndex = 0;
+            this.dgvListaAlumnos.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvListaAlumnos_CellDoubleClick);
+            // 
+            // NroDocumento
+            // 
+            this.NroDocumento.HeaderText = "Nro Documento";
+            this.NroDocumento.Name = "NroDocumento";
+            // 
+            // FechaNacimiento
+            // 
+            this.FechaNacimiento.HeaderText = "Fecha de Nacimiento";
+            this.FechaNacimiento.Name = "FechaNacimiento";
+            // 
+            // Nombre
+            // 
+            this.Nombre.HeaderText = "Nombre";
+            this.Nombre.Name = "Nombre";
+            // 
+            // Apellido
+            // 
+            this.Apellido.HeaderText = "Apellido";
+            this.Apellido.Name = "Apellido";
             // 
             // frmPrincipal
             // 
@@ -274,5 +301,9 @@
         private Button btnGuardar;
         private Button btnLimpiar;
         private Button btnCancelar;
+        private DataGridViewTextBoxColumn NroDocumento;
+        private DataGridViewTextBoxColumn FechaNacimiento;
+        private DataGridViewTextBoxColumn Nombre;
+        private DataGridViewTextBoxColumn Apellido;
     }
 }

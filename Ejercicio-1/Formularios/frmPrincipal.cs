@@ -49,6 +49,7 @@ namespace Ejercicio_1.Formularios
                     InsertarAlumno();
                     break;
                 case EstadoFormulario.Actualizar:
+                    ActualizarAlumno();
                     break;
             }
         }
@@ -77,13 +78,12 @@ namespace Ejercicio_1.Formularios
         {
             txtNroDocumento.Text = alumno.NroDocumento.ToString();
             txtApellido.Text = alumno.Apellido;
-            txtNombre.Text = alumno.NroDocumento.ToString();
+            txtNombre.Text = alumno.Nombre;
             dtpFechaNacimiento.Value = alumno.FechaNacimiento;
         }
-
+        //Cambia el estado de los botones dependiendo del estadod del formulario
         private void CambiarEstadoBotones()
         {
-
             switch (_estadoFormulario)
             {
                 case EstadoFormulario.Vacio:
@@ -95,7 +95,7 @@ namespace Ejercicio_1.Formularios
                     btnCancelar.Enabled = false;
                     break;
                 case EstadoFormulario.Visualizando:
-                    btnCrear.Enabled = true;
+                    btnCrear.Enabled = false;
                     btnActualizar.Enabled = true;
                     btnBorrar.Enabled = true;
                     btnGuardar.Enabled = false;
@@ -122,6 +122,7 @@ namespace Ejercicio_1.Formularios
                     break;
             }
         }
+        // Cambia el estado de los controles del formulario dependiendo de su estado
         private void CambiarEstadoFormulario(EstadoFormulario estado)
         {
             _estadoFormulario = estado;
@@ -129,6 +130,7 @@ namespace Ejercicio_1.Formularios
             {
                 CambiarEstadoControles(false);
                 if (_estadoFormulario == EstadoFormulario.Vacio) LimpiarControles();
+                if (_estadoFormulario == EstadoFormulario.Visualizando) AsignarDatosControles(_alumnoSelec);
             }
             else
             {
@@ -136,7 +138,7 @@ namespace Ejercicio_1.Formularios
             }
             CambiarEstadoBotones();
         }
-
+        //inserta un alumno en la lista
         private void InsertarAlumno()
         {
             try
@@ -153,13 +155,24 @@ namespace Ejercicio_1.Formularios
                 
                 CambiarEstadoFormulario(EstadoFormulario.Vacio);
                 ActualizarLista();
-
             }
             catch(Exception e)
             {
                 MessageBox.Show(e.Message, "Error");
             }
         }
+        private void ActualizarAlumno()
+        {
+            try
+            {
+                _alumnosRepositorio.ActualizarAlumno(_alumnoSelec);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Error");
+            }          
+        }
+        //Actualiza el datagridview para reflejar los cambios en el control
         private void ActualizarLista()
         {
             var listanueva = new List<Alumno>();
@@ -168,6 +181,17 @@ namespace Ejercicio_1.Formularios
             dgvListaAlumnos.Refresh();
         }
 
-        
+        private void dgvListaAlumnos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //dgvListaAlumnos.Rows[e.RowIndex];
+            _alumnoSelec = _alumnosRepositorio.ObtenerAlumno((long) dgvListaAlumnos.SelectedCells[0].Value);
+            if (_estadoFormulario == EstadoFormulario.Vacio) CambiarEstadoFormulario(EstadoFormulario.Visualizando);
+        }
+
+        private void btnBorrar_Click(object sender, EventArgs e)
+        {
+            _alumnosRepositorio.BorrarAlumno(_alumnoSelec);
+            _alumnoSelec = new Alumno();
+        }
     }
 }

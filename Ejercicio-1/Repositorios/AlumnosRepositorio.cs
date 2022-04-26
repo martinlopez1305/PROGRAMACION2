@@ -15,6 +15,11 @@ namespace Ejercicio_1.Repositorios
         {
             ListaAlumnos = new List<Alumno>();
         }
+        public Alumno ObtenerAlumno(long nroDocumento)
+        {
+            var alumno = ListaAlumnos.Where(x => x.NroDocumento == nroDocumento).FirstOrDefault();
+            return alumno;
+        }
         //Metodo para insertar el alumno a la lista
         public void InsertarAlumno(Alumno alumno)
         {
@@ -26,6 +31,16 @@ namespace Ejercicio_1.Repositorios
             //agrego el alumno a la lista
             ListaAlumnos.Add(alumno);
         }
+        public void ActualizarAlumno(Alumno alumno)
+        {
+            var index = ListaAlumnos.FindIndex(x => x.NroDocumento == alumno.NroDocumento);
+            if (index < 0) throw new Exception("Alumno no encontrado en la lista");
+            ListaAlumnos[index] = alumno;
+        }
+        public void BorrarAlumno(Alumno alumno)
+        {
 
+            ListaAlumnos.Remove(alumno);
+        }
     }
 }
