@@ -179,8 +179,8 @@ namespace Ejercicio_1.Formularios
                 var resultado = long.TryParse(txtNroDocumento.Text, out nroDoc);
                 if (!resultado) throw new Exception("Debe ingresar solamente numeros");
                 alumno.NroDocumento = nroDoc;
-                alumno.Nombre = txtNombre.Text;
-                alumno.Apellido = txtApellido.Text;
+                alumno.Nombre = txtNombre.Text.Trim();
+                alumno.Apellido = txtApellido.Text.Trim();
                 alumno.FechaNacimiento = dtpFechaNacimiento.Value;
                 _alumnosRepositorio.InsertarAlumno(alumno);
                 
