@@ -1,14 +1,5 @@
 ﻿using Ejercicio_1.Modelos;
 using Ejercicio_1.Repositorios;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Ejercicio_1.Formularios
 {
@@ -18,6 +9,7 @@ namespace Ejercicio_1.Formularios
         public Alumno _alumnoSelec { get; set; }
         public AlumnosRepositorio _alumnosRepositorio { get; set; }
         public EstadoFormulario _estadoFormulario { get; set; }
+        //Constructor del formulario
         public frmPrincipal()
         {
             InitializeComponent();
@@ -25,42 +17,65 @@ namespace Ejercicio_1.Formularios
             _alumnosRepositorio = new AlumnosRepositorio();
             _estadoFormulario = EstadoFormulario.Vacio;
         }
-
+        //Evento de carga del formulario principal
         private void frmPrincipal_Load(object sender, EventArgs e)
         {
             CambiarEstadoFormulario(EstadoFormulario.Vacio);
             dgvListaAlumnos.DataSource = _alumnosRepositorio.ListaAlumnos;
         }
-
+        //Evento del boton crear
         private void btnCrear_Click(object sender, EventArgs e)
         {
             CambiarEstadoFormulario(EstadoFormulario.Crear);
-
         }
+        //Evento del boton limpiar.. Basicamente limpia los controles
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
             LimpiarControles();
         }
+        //Evento del boton guardar cuando se crea o se actualiza
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            switch (_estadoFormulario)
+            string estado = _estadoFormulario == EstadoFormulario.Crear ? "Crear" : "Actualizar";
+            DialogResult res = MessageBox.Show($"¿Esta seguro que desea {estado}?", "Atencion", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+            if (res == DialogResult.OK)
             {
-                case EstadoFormulario.Crear:
-                    InsertarAlumno();
-                    break;
-                case EstadoFormulario.Actualizar:
-                    ActualizarAlumno();
-                    break;
-            }
+                switch (_estadoFormulario)
+                {
+                    case EstadoFormulario.Crear:
+                        InsertarAlumno();
+                        break;
+                    case EstadoFormulario.Actualizar:
+                        ActualizarAlumno();
+                        break;
+                }
+            }          
         }
+        //Evento del boton cancelar
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             CambiarEstadoFormulario(EstadoFormulario.Vacio);
         }
+        //Evento del boton borrrar
+        private void btnBorrar_Click(object sender, EventArgs e)
+        {
+            DialogResult res = MessageBox.Show("¿Esta seguro que desea borrar?", "Atencion", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+            if (res == DialogResult.OK)
+            {
+                _alumnosRepositorio.BorrarAlumno(_alumnoSelec);
+                _alumnoSelec = new Alumno();
+                CambiarEstadoFormulario(EstadoFormulario.Vacio);
+            }
+        }
+        //Evento del boton Actualizar
+        private void btnActualizar_Click(object sender, EventArgs e)
+        {
+            CambiarEstadoFormulario(EstadoFormulario.Actualizar);
+        }
         //Activa o desactiva los controles del formulario
         private void CambiarEstadoControles(bool estado)
         {
-            txtNroDocumento.Enabled = estado;
+            txtNroDocumento.Enabled = _estadoFormulario == EstadoFormulario.Actualizar ? false: estado;
             txtApellido.Enabled = estado;
             txtNombre.Enabled = estado;
             dtpFechaNacimiento.Enabled = estado;
@@ -137,6 +152,7 @@ namespace Ejercicio_1.Formularios
                 CambiarEstadoControles(true);
             }
             CambiarEstadoBotones();
+            ActualizarLista(); //actualiza los controles cada ves que se cambia de estado del formulario
         }
         //inserta un alumno en la lista
         private void InsertarAlumno()
@@ -154,18 +170,22 @@ namespace Ejercicio_1.Formularios
                 _alumnosRepositorio.InsertarAlumno(alumno);
                 
                 CambiarEstadoFormulario(EstadoFormulario.Vacio);
-                ActualizarLista();
             }
             catch(Exception e)
             {
                 MessageBox.Show(e.Message, "Error");
             }
         }
+        //Actualizo el alumno seleccionado
         private void ActualizarAlumno()
         {
             try
             {
+                _alumnoSelec.Nombre = txtNombre.Text;
+                _alumnoSelec.Apellido = txtApellido.Text;
+                _alumnoSelec.FechaNacimiento = dtpFechaNacimiento.Value;
                 _alumnosRepositorio.ActualizarAlumno(_alumnoSelec);
+                CambiarEstadoFormulario(EstadoFormulario.Visualizando);
             }
             catch (Exception e)
             {
@@ -186,12 +206,6 @@ namespace Ejercicio_1.Formularios
             //dgvListaAlumnos.Rows[e.RowIndex];
             _alumnoSelec = _alumnosRepositorio.ObtenerAlumno((long) dgvListaAlumnos.SelectedCells[0].Value);
             if (_estadoFormulario == EstadoFormulario.Vacio) CambiarEstadoFormulario(EstadoFormulario.Visualizando);
-        }
-
-        private void btnBorrar_Click(object sender, EventArgs e)
-        {
-            _alumnosRepositorio.BorrarAlumno(_alumnoSelec);
-            _alumnoSelec = new Alumno();
         }
     }
 }

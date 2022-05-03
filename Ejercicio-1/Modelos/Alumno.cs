@@ -13,5 +13,10 @@ namespace Ejercicio_1.Modelos
         public DateTime FechaNacimiento { get; set; }
         public string? Nombre { get; set; }
         public string? Apellido { get; set; }
+        public override string ToString()
+        {
+            return $"Alumno: {Nombre} {Apellido} nacido el ";
+        }
     }
+   
 }
