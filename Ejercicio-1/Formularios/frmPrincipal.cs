@@ -36,7 +36,7 @@ namespace Ejercicio_1.Formularios
         //Evento del boton guardar cuando se crea o se actualiza
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            string estado = _estadoFormulario == EstadoFormulario.Crear ? "Crear" : "Actualizar";
+            string estado = _estadoFormulario == EstadoFormulario.Crear ? "crear" : "actualizar";
             DialogResult res = MessageBox.Show($"¿Esta seguro que desea {estado}?", "Atencion", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
             if (res == DialogResult.OK)
             {
@@ -71,6 +71,21 @@ namespace Ejercicio_1.Formularios
         private void btnActualizar_Click(object sender, EventArgs e)
         {
             CambiarEstadoFormulario(EstadoFormulario.Actualizar);
+        }
+        //Evento del datagridview que selecciona el alumno de la lista
+        private void dgvListaAlumnos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //dgvListaAlumnos.Rows[e.RowIndex];
+            _alumnoSelec = _alumnosRepositorio.ObtenerAlumno((long)dgvListaAlumnos.SelectedCells[0].Value);
+            if (_estadoFormulario == EstadoFormulario.Vacio) CambiarEstadoFormulario(EstadoFormulario.Visualizando);
+        }
+        //Evento txtNroDocumento para impedir que el usuario sea capaz de ingresar caracteres que no sean numeros
+        private void txtNroDocumento_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
         //Activa o desactiva los controles del formulario
         private void CambiarEstadoControles(bool estado)
@@ -199,13 +214,6 @@ namespace Ejercicio_1.Formularios
             listanueva.AddRange(_alumnosRepositorio.ListaAlumnos);
             dgvListaAlumnos.DataSource = listanueva;
             dgvListaAlumnos.Refresh();
-        }
-
-        private void dgvListaAlumnos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            //dgvListaAlumnos.Rows[e.RowIndex];
-            _alumnoSelec = _alumnosRepositorio.ObtenerAlumno((long) dgvListaAlumnos.SelectedCells[0].Value);
-            if (_estadoFormulario == EstadoFormulario.Vacio) CambiarEstadoFormulario(EstadoFormulario.Visualizando);
         }
     }
 }
