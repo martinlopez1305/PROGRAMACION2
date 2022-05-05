@@ -51,6 +51,11 @@ namespace Ejercicio_1.Formularios
                 }
             }          
         }
+        //Evento del boton mostrar
+        private void txtMostrar_Click(object sender, EventArgs e)
+        {
+            if(_alumnoSelec.NroDocumento > 0) MessageBox.Show(_alumnoSelec.ToString(), "Alumno");
+        }
         //Evento del boton cancelar
         private void btnCancelar_Click(object sender, EventArgs e)
         {
@@ -215,5 +220,7 @@ namespace Ejercicio_1.Formularios
             dgvListaAlumnos.DataSource = listanueva;
             dgvListaAlumnos.Refresh();
         }
+
+        
     }
 }

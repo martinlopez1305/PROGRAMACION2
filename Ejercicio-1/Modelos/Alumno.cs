@@ -15,7 +15,7 @@ namespace Ejercicio_1.Modelos
         public string? Apellido { get; set; }
         public override string ToString()
         {
-            return $"Alumno: {Nombre} {Apellido} nacido el ";
+            return $"Alumno: {Nombre} {Apellido} nacido el {FechaNacimiento.ToString("dd/MM/yyyy")}";
         }
     }
    

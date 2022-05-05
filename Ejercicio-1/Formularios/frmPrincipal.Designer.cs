@@ -57,6 +57,7 @@
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.txtMostrar = new System.Windows.Forms.Button();
             this.gbxAlumno.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.gbxListaDeAlumnos.SuspendLayout();
@@ -68,6 +69,7 @@
             this.gbxAlumno.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbxAlumno.Controls.Add(this.txtMostrar);
             this.gbxAlumno.Controls.Add(this.flowLayoutPanel1);
             this.gbxAlumno.Controls.Add(this.dtpFechaNacimiento);
             this.gbxAlumno.Controls.Add(this.lblFechaNacimiento);
@@ -328,6 +330,16 @@
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
             this.dataGridViewTextBoxColumn3.ReadOnly = true;
             // 
+            // txtMostrar
+            // 
+            this.txtMostrar.Location = new System.Drawing.Point(244, 370);
+            this.txtMostrar.Name = "txtMostrar";
+            this.txtMostrar.Size = new System.Drawing.Size(75, 23);
+            this.txtMostrar.TabIndex = 11;
+            this.txtMostrar.Text = "Mostrar";
+            this.txtMostrar.UseVisualStyleBackColor = true;
+            this.txtMostrar.Click += new System.EventHandler(this.txtMostrar_Click);
+            // 
             // frmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -377,5 +389,6 @@
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
+        private Button txtMostrar;
     }
 }
